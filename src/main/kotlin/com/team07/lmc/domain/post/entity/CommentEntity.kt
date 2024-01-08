@@ -1,4 +1,4 @@
-package com.team07.lmc.domain.entity
+package com.team07.lmc.domain.post.entity
 
 import jakarta.persistence.*
 

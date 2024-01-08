@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/post/comment")
 class CommentController {
 
     @GetMapping("/{postType}/{postId}")

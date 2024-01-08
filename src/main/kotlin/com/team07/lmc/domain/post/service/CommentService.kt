@@ -1,12 +1,12 @@
-package com.team07.lmc.domain.service
+package com.team07.lmc.domain.post.service
 
 import com.team07.lmc.common.type.PostType
-import com.team07.lmc.domain.repository.ICommentRepository
+import com.team07.lmc.domain.post.repository.IPostRepository
 import org.springframework.stereotype.Service
 
 @Service
 class CommentService (
-    private val commentRepository: ICommentRepository
+    private val commentRepository: IPostRepository
 ){
 
     /**
