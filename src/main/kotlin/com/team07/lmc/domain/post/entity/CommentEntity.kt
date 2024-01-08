@@ -1,6 +1,8 @@
 package com.team07.lmc.domain.post.entity
 
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedDate
+import java.time.LocalDateTime
 
 
 /**
@@ -12,12 +14,37 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "Comment")
-class CommentEntity (
+class CommentEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     val id: Long? = null,
-){
+
+    @Column(name = "writer", nullable = false)
+    val writer: String,
+
+    @Column(name = "writer", nullable = false)
+    val password: String,
+
+    @Column(name = "description", nullable = false)
+    val description: String,
+
+    @CreatedDate
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    //@ManyToOne
+    // Post_detail 단방향 맵핑
+
+    //@ManyToOne
+    // Recruit_Post_detail 단방향 맵핑
+) {
     /**
      * NOTE: ManyToOne으로
      */
+
+
+    companion object {
+        fun from() {
+
+        }
+    }
 }
