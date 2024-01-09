@@ -1,5 +1,7 @@
 package com.team07.lmc.common.domain.comment.entity
 
+import com.team07.lmc.common.domain.comment.dto.CommentAddRequest
+import com.team07.lmc.common.domain.comment.dto.CommentResponse
 import com.team07.lmc.domain.community.entity.CommunityPostEntity
 import com.team07.lmc.domain.recruit.entity.RecruitPostEntity
 import jakarta.persistence.*
@@ -32,14 +34,31 @@ class CommentEntity(
     @JoinColumn(name = "recruit_post_id")
     val recruitPostEntity: RecruitPostEntity? = null
 ) {
-    /**
-     * NOTE: ManyToOne으로
-     */
-
 
     companion object {
-        fun from() {
-
+        fun encodePassword(password: String): String{
+            TODO("encode string")
         }
+
+        fun of(recruitPostEntity: RecruitPostEntity, dto: CommentAddRequest) = CommentEntity(
+            writer = dto.writer,
+            password = encodePassword(dto.password),
+            description = dto.description,
+            recruitPostEntity = recruitPostEntity,
+        )
+
+        fun of(communityPostEntity: CommunityPostEntity, dto: CommentAddRequest) = CommentEntity(
+            writer = dto.writer,
+            password = encodePassword(dto.password),
+            description = dto.description,
+            communityPostEntity = communityPostEntity,
+        )
     }
+
+    fun toResponse() = CommentResponse(
+        id = id!!,
+        writer = writer,
+        description = description,
+        date = createdAt
+    )
 }
