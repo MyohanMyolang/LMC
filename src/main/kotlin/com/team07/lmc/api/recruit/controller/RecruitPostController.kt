@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@RestController
 @RequestMapping("/recruitment/post")
 class RecruitPostController(
     private val recruitmentPostService: RecruitPostProcessingService
@@ -52,6 +53,15 @@ class RecruitPostController(
             .status(HttpStatus.OK)
             .body(recruitmentPostService.updateRecruitmentPost(postId, updateRecruitmentPostRequest))
 
+    }
+
+    // 모집글 삭제
+    @DeleteMapping("/{postId}")
+    fun deleteRecruitmentPost(@PathVariable postId: Long): ResponseEntity<Unit>{
+        recruitmentPostService.deleteRecruitmentPost(postId)
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .build()
     }
 
 

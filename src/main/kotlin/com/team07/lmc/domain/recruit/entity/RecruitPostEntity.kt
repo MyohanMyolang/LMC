@@ -15,25 +15,25 @@ class RecruitPostEntity(
 
 
     @Column(name = "title")
-    val title: String,
+    var title: String,
 
     @Column(name = "writer")
-    val writer: String,
+    var writer: String,
 
     @CreatedDate
-    val createAt: LocalDateTime = LocalDateTime.now(),
+    var createAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "content")
-    val content: String,
+    var content: String,
 
     @Column(name = "max_applicants")
-    val maxApplicants: Long,
+    var maxApplicants: Long,
 
     @Column(name = "num_applicants")
-    val numApplicants: Long,
+    var numApplicants: Long,
 
     @Column(name = "consent_status")
-    val consentStatus: Boolean
+    var consentStatus: Boolean
 ) {
 }
 
