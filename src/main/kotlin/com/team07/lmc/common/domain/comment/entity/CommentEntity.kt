@@ -1,4 +1,4 @@
-package com.team07.lmc.domain.post.entity
+package com.team07.lmc.common.domain.comment.entity
 
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
