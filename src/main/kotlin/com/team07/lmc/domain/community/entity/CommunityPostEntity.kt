@@ -8,7 +8,6 @@ import java.time.LocalDateTime
 @Table(name = "Post")
 class CommunityPostEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "community_post_id")
     val id: Long? = null,
 
     @Column(name = "title")
@@ -22,11 +21,10 @@ class CommunityPostEntity(
 
     @CreatedDate
     @Column(name = "create_date")
-    val createDate: LocalDateTime = LocalDateTime.now(),
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "community_post_detail_id")
-    val communityPostDetailEntity: CommunityPostDetailEntity
+    @Column(name = "content")
+    val content: String,
 ) {
 
 }

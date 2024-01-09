@@ -1,6 +1,5 @@
 package com.team07.lmc.domain.recruit.entity
 
-import com.team07.lmc.domain.community.entity.CommunityPostDetailEntity
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
@@ -9,7 +8,6 @@ import java.time.LocalDateTime
 @Table(name = "recruit_post")
 class RecruitPostEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recruit_post_id")
     val id: Long? = null,
 
 
@@ -20,10 +18,19 @@ class RecruitPostEntity(
     val writer: String,
 
     @CreatedDate
-    val createDate: LocalDateTime = LocalDateTime.now(),
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "recruit_post_detail_id")
-    val recruitPostDetailEntity: CommunityPostDetailEntity
+
+    @Column(name = "content")
+    val content: String,
+
+    @Column(name = "max_applicants")
+    val maxApplicants: Long,
+
+    @Column(name = "num_applicants")
+    val numApplicants: Long,
+
+    @Column(name = "consent_status")
+    val consentStatus: Boolean
 ) {
 }
