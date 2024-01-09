@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/community")
-class CommentController {
+class CommunityCommentController {
 
     @GetMapping("/{postId}/comments")
     fun getPostCommentList(

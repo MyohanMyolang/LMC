@@ -39,10 +39,12 @@ class CommentService(
             .also { if (!it.checkPassword(password)) TODO("권한 없음") }
             .let { func(it) }
 
+    @Transactional
     fun updateComment(id: Long, dto: UpdateCommentRequest) = checkPermission(dto.password, id){
         commentRepository.updateEntity(it, dto).toResponse()
     }
 
+    @Transactional
     fun deleteComment(id: Long, dto: DeleteCommentRequest) = checkPermission(dto.password, id){
         commentRepository.deleteEntity(it).toResponse()
     }
