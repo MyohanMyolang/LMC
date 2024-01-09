@@ -22,7 +22,7 @@ class CommentEntity(
     @Column(name = "writer", nullable = false)
     val writer: String,
 
-    @Column(name = "writer", nullable = false)
+    @Column(name = "password", nullable = false)
     val password: String,
 
     @Column(name = "description", nullable = false)

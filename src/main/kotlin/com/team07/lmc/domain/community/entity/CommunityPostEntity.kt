@@ -14,19 +14,15 @@ class CommunityPostEntity(
     @Column(name = "title")
     val title: String,
 
-    @Column(name = "preview")
-    val preview: String,
+    @Column(name = "content")
+    val content: String,
 
     @Column(name = "writer")
     val writer: String,
 
     @CreatedDate
     @Column(name = "create_date")
-    val createDate: LocalDateTime = LocalDateTime.now(),
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "community_post_detail_id")
-    val communityPostDetailEntity: CommunityPostDetailEntity
+    val createDate: LocalDateTime = LocalDateTime.now()
 ) {
 
 }

@@ -11,7 +11,7 @@ class TeamParticipationEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruit_post_detail_id")
-    val recruitPostDetailEntity: RecruitPostDetailEntity,
+    val recruitPostDetailEntity: RecruitPostEntity,
 
     @Column(name = "consent_status")
     val consentStatus: Boolean

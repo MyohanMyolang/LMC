@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/community/comment")
 class CommentController {
 
-    @GetMapping("/{postType}/{postId}")
+    @GetMapping("/{postId}")
     fun getPostCommentList(
         @PathVariable postId: Long
     ) {
