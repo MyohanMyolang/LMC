@@ -21,7 +21,7 @@ class CommentEntity(
     val password: String,
 
     @Column(name = "description", nullable = false)
-    val description: String,
+    var description: String,
 
     @CreatedDate
     val createdAt: LocalDateTime = LocalDateTime.now(),
@@ -36,7 +36,7 @@ class CommentEntity(
 ) {
 
     companion object {
-        fun encodePassword(password: String): String{
+        private fun encodePassword(password: String): String{
             TODO("encode string")
         }
 
@@ -61,4 +61,6 @@ class CommentEntity(
         description = description,
         date = createdAt
     )
+
+    fun checkPassword(password: String) = this.password == encodePassword(password)
 }
