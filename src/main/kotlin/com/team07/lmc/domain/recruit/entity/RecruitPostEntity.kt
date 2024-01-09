@@ -1,6 +1,5 @@
 package com.team07.lmc.domain.recruit.entity
 
-import com.team07.lmc.domain.community.entity.CommunityPostDetailEntity
 import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
