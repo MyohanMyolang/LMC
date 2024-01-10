@@ -11,25 +11,25 @@ class CommunityPostService (
     private val communityPostEntityService: CommunityPostEntityService
 ){
     fun createCommunityPost(createCommunityPostRequest: CreateCommunityPostRequest): CommunityPostResponse {
-        TODO("Not yet implemented")
+        return communityPostEntityService.createCommunityPost(createCommunityPostRequest)
     }
 
     fun getCommunityPost(postId: Long): CommunityPostResponse {
-        TODO("Not yet implemented")
+        return communityPostEntityService.getCommunityPost(postId)
     }
 
     fun getCommunityPostList(): List<CommunityPostResponse> {
-        TODO("Not yet implemented")
+        return communityPostEntityService.getCommunityPostList()
     }
 
     fun updateCommunityPost(
         postId: Long,
         updateCommunityPostRequest: UpdateCommunityPostRequest
     ): CommunityPostResponse {
-        TODO("Not yet implemented")
+        return communityPostEntityService.updateCommunityPost(postId, updateCommunityPostRequest)
     }
 
     fun deleteCommunityPost(postId: Long) {
-        TODO("Not yet implemented")
+        communityPostEntityService.deleteCommunityPost(postId)
     }
 }

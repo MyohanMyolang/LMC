@@ -1,5 +1,8 @@
 package com.team07.lmc.domain.community.repository
 
-interface ICommunityRepository {
+import com.team07.lmc.domain.community.entity.CommunityPostEntity
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface ICommunityRepository : JpaRepository<CommunityPostEntity, Long> {
 
 }
