@@ -2,8 +2,8 @@ package com.team07.lmc.common.domain.comment.entity
 
 import com.team07.lmc.common.domain.comment.dto.CommentAddRequest
 import com.team07.lmc.common.domain.comment.dto.CommentResponse
-import com.team07.lmc.domain.community.entity.CommunityPostEntity
-import com.team07.lmc.domain.recruit.entity.RecruitPostEntity
+import com.team07.lmc.common.domain.comment.type.PostType
+import com.team07.lmc.common.domain.member.entity.MemberEntity
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
@@ -11,56 +11,51 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "Comment")
 class CommentEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	val id: Long? = null,
 
-    @Column(name = "writer", nullable = false)
-    val writer: String,
+	@Column(name = "member_nickname")
+	val memberNickname: String,
 
-    @Column(name = "password", nullable = false)
-    val password: String,
+	@Column(name = "password")
+	val password: String,
 
-    @Column(name = "description", nullable = false)
-    var description: String,
+	@Column(name = "description")
+	var description: String,
 
-    @CreatedDate
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+	@CreatedDate
+	val createdAt: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "community_post_id")
-    val communityPostEntity: CommunityPostEntity? = null,
+	@Enumerated(value = EnumType.STRING)
+	private val postType: PostType,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recruit_post_id")
-    val recruitPostEntity: RecruitPostEntity? = null
+	private val postId: Long,
 ) {
 
-    companion object {
-        private fun encodePassword(password: String): String{
-            TODO("encode string")
-        }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_nickname", referencedColumnName = "nickname", insertable = false)
+	val member: MemberEntity? = null
 
-        fun of(recruitPostEntity: RecruitPostEntity, dto: CommentAddRequest) = CommentEntity(
-            writer = dto.writer,
-            password = encodePassword(dto.password),
-            description = dto.description,
-            recruitPostEntity = recruitPostEntity,
-        )
+	companion object {
+		private fun encodePassword(password: String): String {
+			TODO("encode string")
+		}
 
-        fun of(communityPostEntity: CommunityPostEntity, dto: CommentAddRequest) = CommentEntity(
-            writer = dto.writer,
-            password = encodePassword(dto.password),
-            description = dto.description,
-            communityPostEntity = communityPostEntity,
-        )
-    }
+		fun of(postType: PostType, postId: Long, memberNickname: String, dto: CommentAddRequest) = CommentEntity(
+			memberNickname = memberNickname,
+			password = encodePassword(dto.password),
+			description = dto.description,
+			postType = postType,
+			postId = postId
+		)
+	}
 
-    fun toResponse() = CommentResponse(
-        id = id!!,
-        writer = writer,
-        description = description,
-        date = createdAt
-    )
+	fun toResponse() = CommentResponse(
+		id = id!!,
+		writer = memberNickname,
+		description = description,
+		date = createdAt
+	)
 
-    fun checkPassword(password: String) = this.password == encodePassword(password)
+	fun checkPassword(password: String) = this.password == encodePassword(password)
 }
