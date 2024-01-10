@@ -26,14 +26,15 @@ class RecruitPostService(
 
     @Transactional
     fun createRecruitmentPost(request: CreateRecruitmentPostRequest): RecruitmentPostResponse {
+        val userEntity = userRepository.findById(request.writerId)
         return recruitPostRepository.save(
             RecruitPostEntity(
-                title = request.title,
-                writer = request.writer,
+                teamName = request.title,
                 content = request.content,
                 maxApplicants = request.maxApplicants,
                 numApplicants = request.numApplicants,
-                consentStatus = false
+                approvalStatus = false,
+                memberEntity = userEntity
             )
         ).toResponseDTO()
     }
@@ -42,11 +43,11 @@ class RecruitPostService(
     fun updateRecruitmentPost(postId: Long, request: UpdateRecruitmentPostRequest): RecruitmentPostResponse {
         val recruitmentPost = recruitPostRepository.findByIdOrNull(postId)  ?: TODO("예외처리 필요")
         val (title, content, maxApplicants, numApplicants, recruitmentEnd) = request
-        recruitmentPost.title = title
+        recruitmentPost.teamName = title
         recruitmentPost.content = content
         recruitmentPost.maxApplicants = maxApplicants
         recruitmentPost.numApplicants = numApplicants
-        recruitmentPost.consentStatus = recruitmentEnd
+        recruitmentPost.approvalStatus = recruitmentEnd
 
         return recruitPostRepository.save(recruitmentPost).toResponseDTO()
     }

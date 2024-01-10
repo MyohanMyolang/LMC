@@ -1,6 +1,5 @@
 package com.team07.lmc.domain.recruit.entity
 
-import com.team07.lmc.domain.community.entity.CommunityPostDetailEntity
 import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
@@ -14,11 +13,8 @@ class RecruitPostEntity(
     val id: Long? = null,
 
 
-    @Column(name = "title")
-    var title: String,
-
-    @Column(name = "writer")
-    var writer: String,
+    @Column(name = "teamName")
+    var teamName: String,
 
     @CreatedDate
     var createAt: LocalDateTime = LocalDateTime.now(),
@@ -32,20 +28,23 @@ class RecruitPostEntity(
     @Column(name = "num_applicants")
     var numApplicants: Long,
 
-    @Column(name = "consent_status")
-    var consentStatus: Boolean
+    @Column(name = "approval_status")
+    var approvalStatus: Boolean,
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "user_id", nullable = false)
+    var memberEntity: MemberEntity
 ) {
 }
 
 fun RecruitPostEntity.toResponseDTO(): RecruitmentPostResponse{
     return RecruitmentPostResponse(
         id = id!!,
-        title = title,
-        writer = writer,
+        teamName = teamName,
         date = createAt,
         content = content,
         maxApplicants = maxApplicants,
         numApplicants = numApplicants,
-        recruitmentEnd = consentStatus
+        recruitmentEnd = approvalStatus
     )
 }
