@@ -24,22 +24,18 @@ class CommentService(
 		commentRepository.getCommentListByPostTypeAndPostId(postType, postId)
 			.let { it.map { comment -> comment.toResponse() } }
 
+	private fun <T> checkPermission(id: Long, func: (commentEntity: CommentEntity) -> T): T =
+		commentRepository.findById(id).let {
+			auth.checkPermission(it.member!!) { func.invoke(it) }
+		}
 
 	@Transactional
-	fun updateComment(id: Long, dto: UpdateCommentRequest) =
-		commentRepository.findById(id)
-			.let {
-				auth.checkPermission(it.member!!) {
-					commentRepository.updateEntity(it, dto).toResponse()
-				}
-			}
+	fun updateComment(id: Long, dto: UpdateCommentRequest) = checkPermission(id) {
+		commentRepository.updateEntity(it, dto).toResponse()
+	}
 
 	@Transactional
-	fun deleteComment(id: Long, dto: DeleteCommentRequest) =
-		commentRepository.findById(id)
-			.let {
-				auth.checkPermission(it.member!!) {
-					commentRepository.deleteEntity(it).toResponse()
-				}
-			}
+	fun deleteComment(id: Long, dto: DeleteCommentRequest) = checkPermission(id) {
+		commentRepository.deleteEntity(it).toResponse()
+	}
 }
