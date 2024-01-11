@@ -1,7 +1,7 @@
 package com.team07.lmc.domain.recruit.service
 
+import com.team07.lmc.common.domain.member.auth.IAuth
 import com.team07.lmc.common.domain.member.repository.MemberEntityRepository
-import com.team07.lmc.common.domain.member.repository.UserRepository
 import com.team07.lmc.domain.recruit.dto.ApplyTeamRequest
 import com.team07.lmc.domain.recruit.dto.ChooseApproveRequest
 import com.team07.lmc.domain.recruit.dto.TeamParticipationResponse
@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service
 @Service
 class ParticipantService(
     private val recruitPostRepository: RecruitPostRepository,
-    private val memberEntityRepository: MemberEntityRepository,
-    private val teamParticipationRepository: TeamParticipationRepository
+    private val teamParticipationRepository: TeamParticipationRepository,
+    private val auth: IAuth
 ) {
     fun sendJoinRequest(postId: Long, request: ApplyTeamRequest): TeamParticipationResponse {
         val recruitPost = recruitPostRepository.findByIdOrNull(postId) ?: TODO("에외처리")
-        val member = memberEntityRepository.findByIdOrNull(request.userId) ?: TODO("에외처리")
+        val member = auth.getCurrentMemberEntity()
         if(recruitPost.isClosed()){
             TODO("예외처리")
         }
@@ -49,27 +49,32 @@ class ParticipantService(
         participantsId: Long,
         request: ChooseApproveRequest
     ): TeamParticipationResponse{
-        val recruitPost = recruitPostRepository.findByIdOrNull(postId) ?: TODO("에외처리")
+        val recruitmentPost = recruitPostRepository.findByIdOrNull(postId) ?: TODO("에외처리")
         val participationRequest = teamParticipationRepository.findByIdOrNull(participantsId) ?: TODO("에외처리")
+        auth.checkPermission(recruitmentPost.memberEntity) {
+            if (participationRequest.isProceeded()) {
+                TODO("이미 처리된 요청")
+            }
+            if (recruitmentPost.isClosed()) {
+                TODO("정원이 꽉 찼을 경우")
+            }
+            when (request.consentStatus) {
+                AnswerStatus.APPROVED.name -> {
+                    participationRequest.approval()
+                    recruitmentPost.addApplicants()
+                    if (recruitmentPost.isFull()) recruitmentPost.close()
+                    recruitPostRepository.save(recruitmentPost)
+                }
 
-        if(participationRequest.isProceeded()){
-            TODO("이미 처리된 요청")
-        }
-        if(recruitPost.isClosed()){
-            TODO("정원이 꽉 찼을 경우")
-        }
-        when(request.consentStatus){
-            AnswerStatus.APPROVED.name -> {
-                participationRequest.approval()
-                recruitPost.addApplicants()
-                if (recruitPost.isFull()) recruitPost.close()
-                recruitPostRepository.save(recruitPost)
+                AnswerStatus.REJECTED.name -> {
+                    participationRequest.reject()
+                }
+
+                else -> TODO("예외처리")
             }
-            AnswerStatus.REJECTED.name -> {
-                participationRequest.reject()
-            }
-            else -> TODO("예외처리")
         }
+
+
         return teamParticipationRepository.save(participationRequest).toResponseDTO()
     }
 
