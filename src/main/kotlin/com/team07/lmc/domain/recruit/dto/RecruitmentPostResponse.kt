@@ -4,8 +4,7 @@ import java.time.LocalDateTime
 
 data class RecruitmentPostResponse (
     val id: Long,
-    val title: String,
-    val writer: String,
+    val teamName: String,
     val date: LocalDateTime,
     val content: String,
     val maxApplicants: Long,

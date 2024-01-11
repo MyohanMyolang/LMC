@@ -12,7 +12,15 @@ class TeamParticipationEntity(
     @JoinColumn(name = "recruit_post_id")
     val recruitPostEntity: RecruitPostEntity,
 
-    @Column(name = "consent_status")
-    val consentStatus: Boolean
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid")
+    var memberEntity: MemberEntity,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "answer_status")
+    val answer: AnswerStatus,
+
+    @Column(name = "user_pr")
+    val userPr: String
 ) {
 }

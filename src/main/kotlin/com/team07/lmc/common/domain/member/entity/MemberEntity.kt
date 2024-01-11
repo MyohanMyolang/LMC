@@ -8,17 +8,17 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "member")
 class MemberEntity(
-    @Id
-    @Column(name = "member_id", unique = true, nullable = false)
-    var memberId: String,
+	@Id
+	@Column(name = "member_id", unique = true, nullable = false)
+	var memberId: String,
 
-    @Column(name = "password", nullable = false)
-    var password: String,
+	@Column(name = "password", nullable = false)
+	var password: String,
 
-    @Column(name = "key", nullable = false)
-    var key: String,
+	@Column(name = "key", nullable = false)
+	var key: String,
 
-    @Column(name = "nickname", nullable = false)
-    var nickname: String
+	@Column(name = "nickname", nullable = false, unique = true)
+	var nickname: String
 ) {
 }
