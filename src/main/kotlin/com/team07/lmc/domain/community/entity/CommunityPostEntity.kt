@@ -1,5 +1,6 @@
 package com.team07.lmc.domain.community.entity
 
+import com.team07.lmc.common.domain.comment.type.PostType
 import com.team07.lmc.common.domain.member.entity.MemberEntity
 import com.team07.lmc.domain.community.dto.CommunityPostResponse
 import jakarta.persistence.*
@@ -26,6 +27,9 @@ class CommunityPostEntity(
     @Column(name = "create_date")
     val createdAt: LocalDateTime = LocalDateTime.now(),
 ) {
+    @Enumerated(value = EnumType.STRING)
+    private val postType: PostType = PostType.COMMUNITY
+
     fun toResponse(): CommunityPostResponse {
         return CommunityPostResponse(id!!, title, content, createdAt)
     }
