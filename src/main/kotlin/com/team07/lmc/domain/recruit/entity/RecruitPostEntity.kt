@@ -1,5 +1,6 @@
 package com.team07.lmc.domain.recruit.entity
 
+import com.team07.lmc.common.domain.member.entity.MemberEntity
 import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
@@ -35,6 +36,10 @@ class RecruitPostEntity(
     @JoinColumn(name = "user_id", nullable = false)
     var memberEntity: MemberEntity
 ) {
+
+    fun isClosed(): Boolean{
+        return !approvalStatus
+    }
 }
 
 fun RecruitPostEntity.toResponseDTO(): RecruitmentPostResponse{
