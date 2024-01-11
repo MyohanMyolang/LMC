@@ -1,5 +1,6 @@
 package com.team07.lmc.domain.community.service
 
+import com.team07.lmc.common.domain.member.auth.IAuth
 import com.team07.lmc.domain.community.dto.CommunityPostResponse
 import com.team07.lmc.domain.community.dto.CreateCommunityPostRequest
 import com.team07.lmc.domain.community.dto.UpdateCommunityPostRequest
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class CommunityPostEntityService (
-    private val communityRepository: CommunityPostEntityRepository
+    private val communityRepository: CommunityPostEntityRepository,
+    private val auth: IAuth
 ){
     //컴파일 에러 -> Null 예외 처리 해주기 -> EntityNotFoundException
 
@@ -28,7 +30,8 @@ class CommunityPostEntityService (
         return communityRepository.save(
             CommunityPostEntity(
                 title=request.title,
-                content = request.content
+                content = request.content,
+                memberEntity = auth.getCurrentMemberEntity()
             )
         ).toResponse()
     }

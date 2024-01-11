@@ -8,14 +8,14 @@ import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "Post")
+@Table(name = "CommunityPost")
 class CommunityPostEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    val memberEntity: MemberEntity?=null,
+    val memberEntity: MemberEntity,
 
     @Column(name = "title")
     var title: String,
