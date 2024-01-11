@@ -7,7 +7,6 @@ import jakarta.persistence.*
 @Table(name = "team_participation")
 class TeamParticipationEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "parti_id")
     val id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -10,7 +10,6 @@ import java.time.LocalDateTime
 @Table(name = "recruit_post")
 class RecruitPostEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recruit_post_id")
     val id: Long? = null,
 
 

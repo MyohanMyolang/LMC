@@ -1,5 +1,7 @@
 package com.team07.lmc.domain.community.entity
 
+import com.team07.lmc.common.domain.member.entity.MemberEntity
+import com.team07.lmc.domain.community.dto.CommunityPostResponse
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
@@ -8,25 +10,23 @@ import java.time.LocalDateTime
 @Table(name = "Post")
 class CommunityPostEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "community_post_id")
     val id: Long? = null,
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    val memberEntity: MemberEntity?=null,
+
     @Column(name = "title")
-    val title: String,
+    var title: String,
 
-    @Column(name = "preview")
-    val preview: String,
-
-    @Column(name = "writer")
-    val writer: String,
+    @Column(name = "content")
+    var content: String,
 
     @CreatedDate
     @Column(name = "create_date")
-    val createDate: LocalDateTime = LocalDateTime.now(),
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "community_post_detail_id")
-    val communityPostDetailEntity: CommunityPostDetailEntity
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 ) {
-
+    fun toResponse(): CommunityPostResponse {
+        return CommunityPostResponse(id!!, title, content, createdAt)
+    }
 }
