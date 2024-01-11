@@ -26,4 +26,6 @@ class TeamParticipationController(
             .status(HttpStatus.OK)
             .body(participantService.sendJoinRequest(postId, applyTeamRequest))
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.team07.lmc.domain.recruit.entity
 
+import com.team07.lmc.common.domain.comment.type.PostType
 import com.team07.lmc.common.domain.member.entity.MemberEntity
 import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
 import jakarta.persistence.*
@@ -35,6 +36,8 @@ class RecruitPostEntity(
     @JoinColumn(name = "user_id", nullable = false)
     var memberEntity: MemberEntity
 ) {
+    @Enumerated(value = EnumType.STRING)
+    private val postType: PostType = PostType.RECRUIT
 
     fun isClosed(): Boolean{
         return !approvalStatus

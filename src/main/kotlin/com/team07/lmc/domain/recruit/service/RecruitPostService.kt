@@ -1,5 +1,6 @@
 package com.team07.lmc.domain.recruit.service
 
+import com.team07.lmc.common.domain.member.repository.MemberEntityRepository
 import com.team07.lmc.domain.recruit.dto.CreateRecruitmentPostRequest
 import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
 import com.team07.lmc.domain.recruit.dto.UpdateRecruitmentPostRequest
@@ -12,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RecruitPostService(
-    private val recruitPostRepository: RecruitPostRepository
+    private val recruitPostRepository: RecruitPostRepository,
+    private val memberEntityRepository: MemberEntityRepository
 ) {
     fun getAllRecruitmentPosts(): List<RecruitmentPostResponse> =
         recruitPostRepository.findAll().map { it.toResponseDTO() }
@@ -26,7 +28,7 @@ class RecruitPostService(
 
     @Transactional
     fun createRecruitmentPost(request: CreateRecruitmentPostRequest): RecruitmentPostResponse {
-        val userEntity = userRepository.findById(request.writerId)
+        val userEntity = memberEntityRepository.findByIdOrNull(request.writerId) ?: TODO("예외처리")
         return recruitPostRepository.save(
             RecruitPostEntity(
                 teamName = request.title,
