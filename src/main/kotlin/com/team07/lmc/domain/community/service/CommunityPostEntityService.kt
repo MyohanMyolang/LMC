@@ -7,6 +7,7 @@ import com.team07.lmc.domain.community.dto.UpdateCommunityPostRequest
 import com.team07.lmc.domain.community.entity.CommunityPostEntity
 import com.team07.lmc.domain.community.repository.CommunityPostEntityRepository
 import jakarta.persistence.EntityNotFoundException
+import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -26,6 +27,7 @@ class CommunityPostEntityService (
         return communityRepository.findAll().map { it.toResponse() }
     }
 
+    @Transactional
     fun createCommunityPost(request: CreateCommunityPostRequest): CommunityPostResponse {
         return communityRepository.save(
             CommunityPostEntity(
@@ -36,18 +38,22 @@ class CommunityPostEntityService (
         ).toResponse()
     }
 
+    @Transactional
     fun updateCommunityPost(postId: Long, request: UpdateCommunityPostRequest): CommunityPostResponse {
+
         val communityPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
-
-        communityPostEntity.title = request.title
-        communityPostEntity.content = request.content
-
-        return communityRepository.save(communityPostEntity).toResponse()
+        return auth.checkPermission(communityPostEntity.memberEntity){
+            communityPostEntity.title = request.title
+            communityPostEntity.content = request.content
+            communityRepository.save(communityPostEntity).toResponse()
+        }
     }
 
+    @Transactional
     fun deleteCommunityPost(postId: Long) {
         val communityPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
-        communityRepository.delete(communityPostEntity)
+        auth.checkPermission(communityPostEntity.memberEntity){
+            communityRepository.delete(communityPostEntity)
+        }
     }
-
 }
