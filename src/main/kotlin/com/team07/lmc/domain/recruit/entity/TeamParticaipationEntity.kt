@@ -21,11 +21,21 @@ class TeamParticipationEntity(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "answer_status")
-    val answer: AnswerStatus = AnswerStatus.WAITING,
+    var answer: AnswerStatus = AnswerStatus.WAITING,
 
     @Column(name = "user_pr")
     val userPr: String
 ) {
+
+    fun isProceeded(): Boolean{
+        return answer != AnswerStatus.WAITING
+    }
+    fun approval(){
+        answer = AnswerStatus.APPROVED
+    }
+    fun reject(){
+        answer = AnswerStatus.REJECTED
+    }
 }
 fun TeamParticipationEntity.toResponseDTO(): TeamParticipationResponse {
     return TeamParticipationResponse(
