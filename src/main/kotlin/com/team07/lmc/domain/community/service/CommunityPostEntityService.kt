@@ -4,20 +4,20 @@ import com.team07.lmc.domain.community.dto.CommunityPostResponse
 import com.team07.lmc.domain.community.dto.CreateCommunityPostRequest
 import com.team07.lmc.domain.community.dto.UpdateCommunityPostRequest
 import com.team07.lmc.domain.community.entity.CommunityPostEntity
-import com.team07.lmc.domain.community.repository.ICommunityRepository
+import com.team07.lmc.domain.community.repository.CommunityPostEntityRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class CommunityPostEntityService (
-    private val communityRepository: ICommunityRepository
+    private val communityRepository: CommunityPostEntityRepository
 ){
     //컴파일 에러 -> Null 예외 처리 해주기 -> EntityNotFoundException
 
     fun getCommunityPost(postId: Long): CommunityPostResponse {
-        val communutyPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
-        return communutyPostEntity.toResponse()
+        val communityPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
+        return communityPostEntity.toResponse()
     }
 
     fun getCommunityPostList(): List<CommunityPostResponse> {
@@ -34,17 +34,17 @@ class CommunityPostEntityService (
     }
 
     fun updateCommunityPost(postId: Long, request: UpdateCommunityPostRequest): CommunityPostResponse {
-        val communutyPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
+        val communityPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
 
-        communutyPostEntity.title = request.title
-        communutyPostEntity.content = request.content
+        communityPostEntity.title = request.title
+        communityPostEntity.content = request.content
 
-        return communityRepository.save(communutyPostEntity).toResponse()
+        return communityRepository.save(communityPostEntity).toResponse()
     }
 
     fun deleteCommunityPost(postId: Long) {
-        val communutyPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
-        communityRepository.delete(communutyPostEntity)
+        val communityPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
+        communityRepository.delete(communityPostEntity)
     }
 
 }
