@@ -1,5 +1,6 @@
 package com.team07.lmc.domain.recruit.entity
 
+import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
@@ -18,8 +19,7 @@ class RecruitPostEntity(
     val writer: String,
 
     @CreatedDate
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-
+    val createAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "content")
     val content: String,
@@ -33,4 +33,17 @@ class RecruitPostEntity(
     @Column(name = "consent_status")
     val consentStatus: Boolean
 ) {
+}
+
+fun RecruitPostEntity.toResponseDTO(): RecruitmentPostResponse{
+    return RecruitmentPostResponse(
+        id = id!!,
+        title = title,
+        writer = writer,
+        date = createAt,
+        content = content,
+        maxApplicants = maxApplicants,
+        numApplicants = numApplicants,
+        recruitmentEnd = consentStatus
+    )
 }
