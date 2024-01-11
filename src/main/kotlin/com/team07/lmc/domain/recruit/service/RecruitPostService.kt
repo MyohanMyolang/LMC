@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional
 class RecruitPostService(
     private val recruitPostRepository: RecruitPostRepository
 ) {
-    fun getAllRecruitmentPosts(): List<RecruitmentPostResponse> {
-        return recruitPostRepository.findAll().map { it.toResponseDTO() }
-    }
+    fun getAllRecruitmentPosts(): List<RecruitmentPostResponse> =
+        recruitPostRepository.findAll().map { it.toResponseDTO() }
+
 
     fun getRecruitmentPostById(postId: Long): RecruitmentPostResponse {
         val recruitmentPost = recruitPostRepository.findByIdOrNull(postId)
@@ -24,25 +24,39 @@ class RecruitPostService(
         return recruitmentPost.toResponseDTO()
     }
 
-//    @Transactional
+    @Transactional
     fun createRecruitmentPost(request: CreateRecruitmentPostRequest): RecruitmentPostResponse {
+        val userEntity = userRepository.findById(request.writerId)
         return recruitPostRepository.save(
             RecruitPostEntity(
-                title = request.title,
-                writer = request.writer,
+                teamName = request.title,
                 content = request.content,
-                createAt = request.date,
                 maxApplicants = request.maxApplicants,
                 numApplicants = request.numApplicants,
-                consentStatus = false
+                approvalStatus = false,
+                memberEntity = userEntity
             )
         ).toResponseDTO()
-
     }
 
-    fun updateRecruitmentPost(postId: Long, Request: UpdateRecruitmentPostRequest): RecruitmentPostResponse {
-        val recruitmentPost = recruitPostRepository.findByIdOrNull(postId)  // TODO:예외처리 필요
-        val ()
+    @Transactional
+    fun updateRecruitmentPost(postId: Long, request: UpdateRecruitmentPostRequest): RecruitmentPostResponse {
+        val recruitmentPost = recruitPostRepository.findByIdOrNull(postId)  ?: TODO("예외처리 필요")
+        val (title, content, maxApplicants, numApplicants, recruitmentEnd) = request
+        recruitmentPost.teamName = title
+        recruitmentPost.content = content
+        recruitmentPost.maxApplicants = maxApplicants
+        recruitmentPost.numApplicants = numApplicants
+        recruitmentPost.approvalStatus = recruitmentEnd
 
+        return recruitPostRepository.save(recruitmentPost).toResponseDTO()
     }
+
+    @Transactional
+    fun deleteRecruitmentPost(postId: Long) {
+        val recruitmentPost = recruitPostRepository.findByIdOrNull(postId) ?: TODO("예외처리 필요")
+        recruitPostRepository.delete(recruitmentPost)
+    }
+
+
 }

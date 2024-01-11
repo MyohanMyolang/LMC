@@ -12,38 +12,38 @@ class RecruitPostEntity(
     val id: Long? = null,
 
 
-    @Column(name = "title")
-    val title: String,
-
-    @Column(name = "writer")
-    val writer: String,
+    @Column(name = "teamName")
+    var teamName: String,
 
     @CreatedDate
-    val createAt: LocalDateTime = LocalDateTime.now(),
+    var createAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "content")
-    val content: String,
+    var content: String,
 
     @Column(name = "max_applicants")
-    val maxApplicants: Long,
+    var maxApplicants: Long,
 
     @Column(name = "num_applicants")
-    val numApplicants: Long,
+    var numApplicants: Long,
 
-    @Column(name = "consent_status")
-    val consentStatus: Boolean
+    @Column(name = "approval_status")
+    var approvalStatus: Boolean,
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "user_id", nullable = false)
+    var memberEntity: MemberEntity
 ) {
 }
 
 fun RecruitPostEntity.toResponseDTO(): RecruitmentPostResponse{
     return RecruitmentPostResponse(
         id = id!!,
-        title = title,
-        writer = writer,
+        teamName = teamName,
         date = createAt,
         content = content,
         maxApplicants = maxApplicants,
         numApplicants = numApplicants,
-        recruitmentEnd = consentStatus
+        recruitmentEnd = approvalStatus
     )
 }

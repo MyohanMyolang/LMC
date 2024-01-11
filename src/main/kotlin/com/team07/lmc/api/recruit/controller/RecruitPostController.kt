@@ -1,16 +1,21 @@
 package com.team07.lmc.api.recruit.controller
 
+import com.team07.lmc.api.recruit.service.ParticipantProcessingService
 import com.team07.lmc.api.recruit.service.RecruitPostProcessingService
 import com.team07.lmc.domain.recruit.dto.CreateRecruitmentPostRequest
 import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
+import com.team07.lmc.domain.recruit.dto.TeamParticipationResponse
 import com.team07.lmc.domain.recruit.dto.UpdateRecruitmentPostRequest
+import com.team07.lmc.domain.recruit.entity.TeamParticipationEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@RestController
 @RequestMapping("/recruitment/post")
 class RecruitPostController(
-    private val recruitmentPostService: RecruitPostProcessingService
+    private val recruitmentPostService: RecruitPostProcessingService,
+    private val participantService: ParticipantProcessingService
 
 ) {
 
@@ -29,6 +34,7 @@ class RecruitPostController(
 
         return ResponseEntity
             .status(HttpStatus.OK)
+
             .body(recruitmentPostService.getRecruitmentPostById(postId))
     }
 
@@ -43,7 +49,7 @@ class RecruitPostController(
     }
 
     // 모집글 수정
-    @PatchMapping("/{postId}")
+    @PutMapping("/{postId}")
     fun updateRecruitmentPost(
         @PathVariable postId: Long,
         @RequestBody updateRecruitmentPostRequest: UpdateRecruitmentPostRequest
@@ -53,6 +59,26 @@ class RecruitPostController(
             .body(recruitmentPostService.updateRecruitmentPost(postId, updateRecruitmentPostRequest))
 
     }
+
+    // 모집글 삭제
+    @DeleteMapping("/{postId}")
+    fun deleteRecruitmentPost(@PathVariable postId: Long): ResponseEntity<Unit>{
+        recruitmentPostService.deleteRecruitmentPost(postId)
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .build()
+    }
+
+    // 팀원 합류 요청
+    @PostMapping("/{postId}/participants")
+    fun participateRequest(@PathVariable postId: Long): ResponseEntity<TeamParticipationResponse>{
+        participantService.sendJoinRequest(postId)
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .build()
+    }
+
+
 
 
 }
