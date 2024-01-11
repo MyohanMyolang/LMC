@@ -24,20 +24,20 @@ class RecruitPostService(
         return recruitmentPost.toResponseDTO()
     }
 
-    @Transactional
-    fun createRecruitmentPost(request: CreateRecruitmentPostRequest): RecruitmentPostResponse {
-        val userEntity = userRepository.findById(request.writerId)
-        return recruitPostRepository.save(
-            RecruitPostEntity(
-                teamName = request.title,
-                content = request.content,
-                maxApplicants = request.maxApplicants,
-                numApplicants = request.numApplicants,
-                approvalStatus = false,
-                memberEntity = userEntity
-            )
-        ).toResponseDTO()
-    }
+//    @Transactional
+//    fun createRecruitmentPost(request: CreateRecruitmentPostRequest): RecruitmentPostResponse {
+//        val userEntity = userRepository.findById(request.writerId)
+//        return recruitPostRepository.save(
+//            RecruitPostEntity(
+//                teamName = request.title,
+//                content = request.content,
+//                maxApplicants = request.maxApplicants,
+//                numApplicants = request.numApplicants,
+//                approvalStatus = false,
+//                memberEntity = userEntity
+//            )
+//        ).toResponseDTO()
+//    }
 
     @Transactional
     fun updateRecruitmentPost(postId: Long, request: UpdateRecruitmentPostRequest): RecruitmentPostResponse {

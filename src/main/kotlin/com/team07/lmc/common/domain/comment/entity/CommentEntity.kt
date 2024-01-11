@@ -17,9 +17,6 @@ class CommentEntity(
 	@Column(name = "member_nickname")
 	val memberNickname: String,
 
-	@Column(name = "password")
-	val password: String,
-
 	@Column(name = "description")
 	var description: String,
 
@@ -37,13 +34,8 @@ class CommentEntity(
 	val member: MemberEntity? = null
 
 	companion object {
-		private fun encodePassword(password: String): String {
-			TODO("encode string")
-		}
-
 		fun of(postType: PostType, postId: Long, memberNickname: String, dto: CommentAddRequest) = CommentEntity(
 			memberNickname = memberNickname,
-			password = encodePassword(dto.password),
 			description = dto.description,
 			postType = postType,
 			postId = postId
@@ -56,6 +48,4 @@ class CommentEntity(
 		description = description,
 		date = createdAt
 	)
-
-	fun checkPassword(password: String) = this.password == encodePassword(password)
 }

@@ -1,5 +1,6 @@
 package com.team07.lmc.domain.recruit.entity
 
+import com.team07.lmc.common.domain.member.entity.MemberEntity
 import jakarta.persistence.*
 
 @Entity
