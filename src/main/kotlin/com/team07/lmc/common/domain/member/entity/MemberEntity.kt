@@ -23,10 +23,10 @@ class MemberEntity(
 	@Column(name = "nickname", nullable = false, unique = true)
 	var nickname: String
 ) {
-	companion object{
-		private fun encodeString(str: String):String = Base64Util.encode(str)
+	companion object {
+		private fun encodeString(str: String): String = Base64Util.encode(str)
 
-		private fun of(dto: SignDto, key: String) = MemberEntity(
+		fun of(dto: SignDto, key: String) = MemberEntity(
 			memberId = dto.id!!,
 			password = encodeString(dto.password!!),
 			nickname = dto.nickname!!,
