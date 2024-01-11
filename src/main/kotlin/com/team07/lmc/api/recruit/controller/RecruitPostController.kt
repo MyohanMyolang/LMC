@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/recruitment/post")
 class RecruitPostController(
     private val recruitmentPostService: RecruitPostProcessingService,
-    private val participantService: ParticipantProcessingService
+
 
 ) {
 
@@ -70,13 +70,6 @@ class RecruitPostController(
     }
 
     // 팀원 합류 요청
-    @PostMapping("/{postId}/participants")
-    fun participateRequest(@PathVariable postId: Long): ResponseEntity<TeamParticipationResponse>{
-        participantService.sendJoinRequest(postId)
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .build()
-    }
 
 
 

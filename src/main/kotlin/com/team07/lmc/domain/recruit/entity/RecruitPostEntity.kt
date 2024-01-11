@@ -27,7 +27,7 @@ class RecruitPostEntity(
     var maxApplicants: Long,
 
     @Column(name = "num_applicants")
-    var numApplicants: Long,
+    var numApplicants: Long = 0,
 
     @Column(name = "approval_status")
     var approvalStatus: Boolean,
@@ -38,6 +38,22 @@ class RecruitPostEntity(
 ) {
     @Enumerated(value = EnumType.STRING)
     private val postType: PostType = PostType.RECRUIT
+
+    fun isClosed(): Boolean{
+        return !approvalStatus
+    }
+
+    fun addApplicants(){
+        numApplicants += 1
+    }
+
+    fun isFull(): Boolean{
+        return maxApplicants == numApplicants
+    }
+
+    fun close(){
+        approvalStatus = false
+    }
 }
 
 fun RecruitPostEntity.toResponseDTO(): RecruitmentPostResponse{

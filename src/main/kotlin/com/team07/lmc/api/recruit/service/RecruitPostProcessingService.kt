@@ -24,7 +24,8 @@ class RecruitPostProcessingService(
 
 
     fun createRecruitmentPost(createRecruitmentPostRequest: CreateRecruitmentPostRequest): RecruitmentPostResponse {
-        return recruitPostService.createRecruitmentPost(createRecruitmentPostRequest)
+        TODO()
+        //return recruitPostService.createRecruitmentPost(createRecruitmentPostRequest)
     }
 
     fun updateRecruitmentPost(postId: Long, updateRecruitmentPostRequest: UpdateRecruitmentPostRequest): RecruitmentPostResponse {

@@ -1,6 +1,8 @@
 package com.team07.lmc.domain.recruit.entity
 
 import com.team07.lmc.common.domain.member.entity.MemberEntity
+import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
+import com.team07.lmc.domain.recruit.dto.TeamParticipationResponse
 import jakarta.persistence.*
 
 @Entity
@@ -11,17 +13,35 @@ class TeamParticipationEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruit_post_id")
-    val recruitPostEntity: RecruitPostEntity,
+    val recruitPostId: RecruitPostEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid")
-    var memberEntity: MemberEntity,
+    var memberId: MemberEntity,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "answer_status")
-    val answer: AnswerStatus,
+    var answer: AnswerStatus = AnswerStatus.WAITING,
 
     @Column(name = "user_pr")
     val userPr: String
 ) {
+
+    fun isProceeded(): Boolean{
+        return answer != AnswerStatus.WAITING
+    }
+    fun approval(){
+        answer = AnswerStatus.APPROVED
+    }
+    fun reject(){
+        answer = AnswerStatus.REJECTED
+    }
+}
+fun TeamParticipationEntity.toResponseDTO(): TeamParticipationResponse {
+    return TeamParticipationResponse(
+        id = id!!,
+        userName = memberId.nickname,
+        teamName = recruitPostId.teamName,
+        consentStatus = answer
+    )
 }
