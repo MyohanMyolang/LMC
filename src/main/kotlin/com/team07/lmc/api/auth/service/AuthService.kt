@@ -15,8 +15,7 @@ class AuthService(
 
 	@Transactional
 	fun signUp(signDto: SignDto): Boolean = with(signDto) {
-		MemberEntity.of(this, auth.generateKey(this))
-			.let { memberService.signUp(it) }
+		memberService.signUp(signDto)
 		true
 	}
 

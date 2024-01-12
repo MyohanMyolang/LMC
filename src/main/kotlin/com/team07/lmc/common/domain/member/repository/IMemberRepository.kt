@@ -7,4 +7,5 @@ interface IMemberRepository {
 	fun findByNickname(nickname: String): MemberEntity
 	fun save(entity: MemberEntity): MemberEntity
 	fun findByKey(key: String): MemberEntity?
+	fun duplicateCheck(id: String, nickname: String): MemberEntity?
 }
