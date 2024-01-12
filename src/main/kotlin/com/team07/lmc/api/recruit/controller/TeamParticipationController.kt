@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/recruitment/post/{postId}/participants")
+    @RequestMapping("/recruitment/post/{postId}/participants")
 class TeamParticipationController(
     private val participantService: ParticipantProcessingService
 ) {
@@ -32,6 +32,7 @@ class TeamParticipationController(
             .body(participantService.getAllParticipantsRequest(postId))
     }
 
+    // 팀 신청 내역 승인 or 거절
     @PatchMapping("/{participantsId}")
     fun chooseApproveOrNot(
         @PathVariable postId: Long,

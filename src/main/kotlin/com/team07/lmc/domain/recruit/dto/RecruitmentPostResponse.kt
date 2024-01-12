@@ -9,5 +9,6 @@ data class RecruitmentPostResponse (
     val content: String,
     val maxApplicants: Long,
     val numApplicants: Long,
-    val recruitmentEnd: Boolean
+    val recruitmentEnd: Boolean,
+    val userId: String
     )

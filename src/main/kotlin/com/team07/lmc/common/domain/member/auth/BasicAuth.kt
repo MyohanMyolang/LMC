@@ -21,9 +21,10 @@ class BasicAuth(
 
 	// 현재 사용자의 엔티티 받아옴
 	override fun getCurrentMemberEntity(): MemberEntity =
-		getCurrentMemberKey().split(" ")[1].let {
+		getCurrentMemberKey().let {
 			memberEntityRepository.findByKey(it) ?: TODO("로그인 상태 확인. exception 만들기")
 		}
+
 
 	override fun getType(): String = "basic"
 

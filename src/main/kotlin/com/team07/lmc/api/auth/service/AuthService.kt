@@ -2,6 +2,7 @@ package com.team07.lmc.api.auth.service
 
 import com.team07.lmc.common.domain.member.auth.IAuth
 import com.team07.lmc.common.domain.member.auth.dto.SignDto
+import com.team07.lmc.common.domain.member.auth.dto.SignInDto
 import com.team07.lmc.common.domain.member.entity.MemberEntity
 import com.team07.lmc.common.domain.member.service.MemberService
 import jakarta.transaction.Transactional
@@ -19,7 +20,7 @@ class AuthService(
 		true
 	}
 
-	fun signIn(signDto: SignDto): String =
+	fun signIn(signDto: SignInDto): String =
 		memberService.findByMemberId(signDto.id!!)
 			.let {
 				if (!it.isSamePassword(signDto.password!!))

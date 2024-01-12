@@ -30,7 +30,7 @@ class CommentEntity(
 ) {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_nickname", referencedColumnName = "nickname", insertable = false)
+	@JoinColumn(name = "member_nickname", referencedColumnName = "nickname", insertable = false, updatable = false)
 	val member: MemberEntity? = null
 
 	companion object {

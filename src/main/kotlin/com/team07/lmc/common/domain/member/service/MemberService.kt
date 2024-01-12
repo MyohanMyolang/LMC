@@ -14,7 +14,8 @@ class MemberService(
 	fun findByMemberId(id: String): MemberEntity = memberRepository.findById(id)
 
 	fun signUp(dto: SignDto) =
-		auth.generateKey(dto)
+		duplicateCheck(dto)
+			.let { auth.generateKey(dto) }
 			.let { MemberEntity.of(dto, it) }
 			.let { memberRepository.save(it) }
 

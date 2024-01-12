@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/recruitment/post")
+@RequestMapping("/recruitment")
 class RecruitPostController(
     private val recruitmentPostService: RecruitPostProcessingService,
 
@@ -20,7 +20,7 @@ class RecruitPostController(
 ) {
 
     // 모집글 리스트 형태로 조회
-    @GetMapping
+    @GetMapping("/posts")
     fun getAllRecruitmentPosts(): ResponseEntity<List<RecruitmentPostResponse>> {
 
         return ResponseEntity
@@ -29,31 +29,30 @@ class RecruitPostController(
     }
 
     // 모집글 상세보기
-    @GetMapping("/{postId}")
-    fun getRecruitmentPostById(@PathVariable postId: Long): ResponseEntity<RecruitmentPostResponse>{
+    @GetMapping("/post/{postId}")
+    fun getRecruitmentPostById(@PathVariable postId: Long): ResponseEntity<RecruitmentPostResponse> {
 
         return ResponseEntity
             .status(HttpStatus.OK)
-
             .body(recruitmentPostService.getRecruitmentPostById(postId))
     }
 
     // 모집글 작성
-    @PostMapping
+    @PostMapping("/post")
     fun createRecruitmentPost(
         @RequestBody createRecruitmentPostRequest: CreateRecruitmentPostRequest
-    ): ResponseEntity<RecruitmentPostResponse>{
+    ): ResponseEntity<RecruitmentPostResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(recruitmentPostService.createRecruitmentPost(createRecruitmentPostRequest))
     }
 
     // 모집글 수정
-    @PutMapping("/{postId}")
+    @PatchMapping("/post/{postId}")
     fun updateRecruitmentPost(
         @PathVariable postId: Long,
         @RequestBody updateRecruitmentPostRequest: UpdateRecruitmentPostRequest
-    ): ResponseEntity<RecruitmentPostResponse>{
+    ): ResponseEntity<RecruitmentPostResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(recruitmentPostService.updateRecruitmentPost(postId, updateRecruitmentPostRequest))
@@ -61,17 +60,11 @@ class RecruitPostController(
     }
 
     // 모집글 삭제
-    @DeleteMapping("/{postId}")
-    fun deleteRecruitmentPost(@PathVariable postId: Long): ResponseEntity<Unit>{
+    @DeleteMapping("/post/{postId}")
+    fun deleteRecruitmentPost(@PathVariable postId: Long): ResponseEntity<Unit> {
         recruitmentPostService.deleteRecruitmentPost(postId)
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .build()
     }
-
-    // 팀원 합류 요청
-
-
-
-
 }

@@ -6,7 +6,6 @@ import com.team07.lmc.domain.recruit.dto.CreateRecruitmentPostRequest
 import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
 import com.team07.lmc.domain.recruit.dto.UpdateRecruitmentPostRequest
 import com.team07.lmc.domain.recruit.entity.RecruitPostEntity
-import com.team07.lmc.domain.recruit.entity.toResponseDTO
 import com.team07.lmc.domain.recruit.repository.RecruitPostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -36,8 +35,7 @@ class RecruitPostService(
                 teamName = request.title,
                 content = request.content,
                 maxApplicants = request.maxApplicants,
-                numApplicants = request.numApplicants,
-                approvalStatus = false,
+                approvalStatus = true,
                 memberEntity = userEntity
             )
         ).toResponseDTO()
@@ -47,11 +45,10 @@ class RecruitPostService(
     fun updateRecruitmentPost(postId: Long, request: UpdateRecruitmentPostRequest): RecruitmentPostResponse {
         val recruitmentPost = recruitPostRepository.findByIdOrNull(postId)  ?: TODO("예외처리 필요")
         auth.checkPermission(recruitmentPost.memberEntity){
-            val (title, content, maxApplicants, numApplicants, recruitmentEnd) = request
+            val (title, content, maxApplicants, recruitmentEnd) = request
             recruitmentPost.teamName = title
             recruitmentPost.content = content
             recruitmentPost.maxApplicants = maxApplicants
-            recruitmentPost.numApplicants = numApplicants
             recruitmentPost.approvalStatus = recruitmentEnd
         }
         return recruitPostRepository.save(recruitmentPost).toResponseDTO()

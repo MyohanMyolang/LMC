@@ -2,8 +2,7 @@ package com.team07.lmc.domain.community.service
 
 import com.team07.lmc.common.domain.member.auth.IAuth
 import com.team07.lmc.domain.community.dto.CommunityPostResponse
-import com.team07.lmc.domain.community.dto.CreateCommunityPostRequest
-import com.team07.lmc.domain.community.dto.UpdateCommunityPostRequest
+import com.team07.lmc.domain.community.dto.CommunityPostRequest
 import com.team07.lmc.domain.community.entity.CommunityPostEntity
 import com.team07.lmc.domain.community.repository.CommunityPostEntityRepository
 import jakarta.persistence.EntityNotFoundException
@@ -28,7 +27,7 @@ class CommunityPostEntityService (
     }
 
     @Transactional
-    fun createCommunityPost(request: CreateCommunityPostRequest): CommunityPostResponse {
+    fun createCommunityPost(request: CommunityPostRequest): CommunityPostResponse {
         return communityRepository.save(
             CommunityPostEntity(
                 title=request.title,
@@ -39,7 +38,7 @@ class CommunityPostEntityService (
     }
 
     @Transactional
-    fun updateCommunityPost(postId: Long, request: UpdateCommunityPostRequest): CommunityPostResponse {
+    fun updateCommunityPost(postId: Long, request: CommunityPostRequest): CommunityPostResponse {
 
         val communityPostEntity = communityRepository.findByIdOrNull(postId)?: throw EntityNotFoundException("Entity with ID $postId not found.")
         return auth.checkPermission(communityPostEntity.memberEntity){

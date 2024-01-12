@@ -36,12 +36,13 @@ class TeamParticipationEntity(
     fun reject(){
         answer = AnswerStatus.REJECTED
     }
-}
-fun TeamParticipationEntity.toResponseDTO(): TeamParticipationResponse {
-    return TeamParticipationResponse(
-        id = id!!,
-        userName = memberId.nickname,
-        teamName = recruitPostId.teamName,
-        consentStatus = answer
-    )
+
+    fun toResponseDTO(): TeamParticipationResponse {
+        return TeamParticipationResponse(
+            id = id!!,
+            userName = memberId.nickname,
+            teamName = recruitPostId.teamName,
+            consentStatus = answer
+        )
+    }
 }
