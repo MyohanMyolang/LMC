@@ -1,7 +1,6 @@
 package com.team07.lmc.common.domain.comment.service
 
 import com.team07.lmc.common.domain.comment.dto.CommentAddRequest
-import com.team07.lmc.common.domain.comment.dto.DeleteCommentRequest
 import com.team07.lmc.common.domain.comment.dto.UpdateCommentRequest
 import com.team07.lmc.common.domain.comment.entity.CommentEntity
 import com.team07.lmc.common.domain.comment.repository.ICommentRepository
@@ -35,7 +34,7 @@ class CommentService(
 	}
 
 	@Transactional
-	fun deleteComment(id: Long, dto: DeleteCommentRequest) = checkPermission(id) {
+	fun deleteComment(id: Long) = checkPermission(id) {
 		commentRepository.deleteEntity(it).toResponse()
 	}
 }

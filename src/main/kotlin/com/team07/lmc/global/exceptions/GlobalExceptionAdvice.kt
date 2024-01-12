@@ -26,4 +26,18 @@ class GlobalExceptionAdvice {
 	}
 
 
+	@ExceptionHandler(UnauthorizedException::class)
+	fun unauthorizedError(error: UnauthorizedException) = responseEntity(HttpStatus.UNAUTHORIZED) {
+		error.message
+	}
+
+	@ExceptionHandler(AlreadyHasMember::class)
+	fun alreadyHasMemberError(error: AlreadyHasMember) = responseEntity(HttpStatus.CONFLICT) {
+		error.message
+	}
+
+	@ExceptionHandler(AccessAuthException::class)
+	fun accessAuthError(error: AccessAuthException) = responseEntity(HttpStatus.FORBIDDEN) {
+		error.message
+	}
 }

@@ -1,6 +1,5 @@
 package com.team07.lmc.common.domain.comment.dto
 
 data class UpdateCommentRequest(
-    val password: String,
     val description: String?
 )

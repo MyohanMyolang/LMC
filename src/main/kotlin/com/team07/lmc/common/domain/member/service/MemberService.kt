@@ -4,6 +4,7 @@ import com.team07.lmc.common.domain.member.auth.IAuth
 import com.team07.lmc.common.domain.member.auth.dto.SignDto
 import com.team07.lmc.common.domain.member.entity.MemberEntity
 import com.team07.lmc.common.domain.member.repository.IMemberRepository
+import com.team07.lmc.global.exceptions.AlreadyHasMember
 import org.springframework.stereotype.Service
 
 @Service
@@ -21,5 +22,5 @@ class MemberService(
 
 	fun duplicateCheck(dto: SignDto) =
 		memberRepository.duplicateCheck(dto.id!!, dto.nickname!!)
-			.let { if(it != null) TODO("중복된 ID 또는 Nickname") }
+			.let { if(it != null) throw AlreadyHasMember("ID 또는 Nickname이 중복되었습니다.") }
 }
