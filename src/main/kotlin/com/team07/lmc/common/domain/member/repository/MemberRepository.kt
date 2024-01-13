@@ -21,5 +21,5 @@ class MemberRepository(
 	override fun findByKey(key: String) = memberEntityRepository.findByKey(key)
 
 	override fun duplicateCheck(id: String, nickname: String) =
-		memberEntityRepository.findByMemberIdAndNickname(id, nickname)
+		memberEntityRepository.findByMemberIdOrNickname(id, nickname)
 }

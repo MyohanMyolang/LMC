@@ -14,7 +14,8 @@ class CommentRepository(
 	override fun addComment(entity: CommentEntity) =
 		commentEntityRepository.save(entity)
 
-	override fun findById(id: Long): CommentEntity = commentEntityRepository.findByIdOrNull(id) ?: throw NotFoundTargetException("")
+	override fun findById(id: Long): CommentEntity =
+		commentEntityRepository.findByIdOrNull(id) ?: throw NotFoundTargetException("")
 
 	override fun updateEntity(entity: CommentEntity, dto: UpdateCommentRequest): CommentEntity =
 		entity.apply {

@@ -5,6 +5,7 @@ import com.team07.lmc.common.domain.member.auth.dto.SignDto
 import com.team07.lmc.common.domain.member.entity.MemberEntity
 import com.team07.lmc.common.domain.member.repository.IMemberRepository
 import com.team07.lmc.global.exceptions.AlreadyHasMember
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,9 +15,10 @@ class MemberService(
 ) {
 	fun findByMemberId(id: String): MemberEntity = memberRepository.findById(id)
 
+	@Transactional
 	fun signUp(dto: SignDto) =
 		duplicateCheck(dto)
-			.let { auth.generateKey(dto) }
+			.run { auth.generateKey(dto) }
 			.let { MemberEntity.of(dto, it) }
 			.let { memberRepository.save(it) }
 
