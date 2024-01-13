@@ -5,6 +5,8 @@ import com.team07.lmc.common.domain.comment.dto.CommentResponse
 import com.team07.lmc.common.domain.comment.type.PostType
 import com.team07.lmc.common.domain.member.entity.MemberEntity
 import jakarta.persistence.*
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
@@ -20,6 +22,7 @@ class CommentEntity(
 	@CreatedDate
 	val createdAt: LocalDateTime = LocalDateTime.now(),
 
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	val member: MemberEntity,
@@ -37,7 +40,7 @@ class CommentEntity(
 	companion object {
 		fun of(postType: PostType, postId: Long, member: MemberEntity, dto: CommentAddRequest) = CommentEntity(
 			member = member,
-			description = dto.description,
+			description = dto.description!!,
 			postType = postType,
 			postId = postId,
 			memberNickname = member.nickname

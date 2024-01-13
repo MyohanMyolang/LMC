@@ -15,7 +15,7 @@ class CommentRepository(
 		commentEntityRepository.save(entity)
 
 	override fun findById(id: Long): CommentEntity =
-		commentEntityRepository.findByIdOrNull(id) ?: throw NotFoundTargetException("")
+		commentEntityRepository.findByIdOrNull(id) ?: throw NotFoundTargetException("해당 댓글이 존재하지 않습니다.")
 
 	override fun updateEntity(entity: CommentEntity, dto: UpdateCommentRequest): CommentEntity =
 		entity.apply {

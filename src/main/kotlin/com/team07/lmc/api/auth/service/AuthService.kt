@@ -24,10 +24,8 @@ class AuthService(
 	fun signIn(signDto: SignInDto): String =
 		memberService.findByMemberId(signDto.id!!)
 			.let {
-				if (!it.isSamePassword(signDto.password!!))
-					throw UnauthorizedException("비밀번호가 틀립니다.")
-				else
-					"${auth.getType()} ${it.key}"
+				if (!it.isSamePassword(signDto.password!!)) throw UnauthorizedException("비밀번호가 틀립니다.")
+				else "${auth.getType()} ${it.key}"
 			}
 
 }

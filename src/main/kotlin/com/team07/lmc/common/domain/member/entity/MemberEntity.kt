@@ -23,7 +23,7 @@ class MemberEntity(
 
 	@Column(name = "nickname", nullable = false, unique = true)
 	var nickname: String
-) : Serializable {
+) {
 	companion object {
 		private fun encodeString(str: String): String = Base64Util.encode(str)
 
