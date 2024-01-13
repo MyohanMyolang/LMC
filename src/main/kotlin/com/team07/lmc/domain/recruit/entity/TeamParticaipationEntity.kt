@@ -1,19 +1,48 @@
 package com.team07.lmc.domain.recruit.entity
 
+import com.team07.lmc.common.domain.member.entity.MemberEntity
+import com.team07.lmc.domain.recruit.dto.RecruitmentPostResponse
+import com.team07.lmc.domain.recruit.dto.TeamParticipationResponse
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "team_participation")
 class TeamParticipationEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "parti_id")
     val id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recruit_post_detail_id")
-    val recruitPostDetailEntity: RecruitPostDetailEntity,
+    @JoinColumn(name = "recruit_post_id")
+    val recruitPostId: RecruitPostEntity,
 
-    @Column(name = "consent_status")
-    val consentStatus: Boolean
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid")
+    var memberId: MemberEntity,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "answer_status")
+    var answer: AnswerStatus = AnswerStatus.WAITING,
+
+    @Column(name = "user_pr")
+    val userPr: String
 ) {
+
+    fun isProceeded(): Boolean{
+        return answer != AnswerStatus.WAITING
+    }
+    fun approval(){
+        answer = AnswerStatus.APPROVED
+    }
+    fun reject(){
+        answer = AnswerStatus.REJECTED
+    }
+
+    fun toResponseDTO(): TeamParticipationResponse {
+        return TeamParticipationResponse(
+            id = id!!,
+            userName = memberId.nickname,
+            teamName = recruitPostId.teamName,
+            consentStatus = answer
+        )
+    }
 }
