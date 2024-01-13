@@ -5,6 +5,8 @@ import com.team07.lmc.common.domain.comment.dto.CommentResponse
 import com.team07.lmc.common.domain.comment.type.PostType
 import com.team07.lmc.common.domain.member.entity.MemberEntity
 import jakarta.persistence.*
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
@@ -14,31 +16,34 @@ class CommentEntity(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long? = null,
 
-	@Column(name = "member_nickname")
-	val memberNickname: String,
-
 	@Column(name = "description")
 	var description: String,
 
 	@CreatedDate
 	val createdAt: LocalDateTime = LocalDateTime.now(),
 
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	val member: MemberEntity,
+
 	@Enumerated(value = EnumType.STRING)
 	private val postType: PostType,
 
 	private val postId: Long,
+
+	@Column(name = "member_nickname")
+	val memberNickname: String
 ) {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_nickname", referencedColumnName = "nickname", insertable = false, updatable = false)
-	val member: MemberEntity? = null
 
 	companion object {
-		fun of(postType: PostType, postId: Long, memberNickname: String, dto: CommentAddRequest) = CommentEntity(
-			memberNickname = memberNickname,
-			description = dto.description,
+		fun of(postType: PostType, postId: Long, member: MemberEntity, dto: CommentAddRequest) = CommentEntity(
+			member = member,
+			description = dto.description!!,
 			postType = postType,
-			postId = postId
+			postId = postId,
+			memberNickname = member.nickname
 		)
 	}
 

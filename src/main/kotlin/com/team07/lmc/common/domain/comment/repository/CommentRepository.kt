@@ -3,6 +3,7 @@ package com.team07.lmc.common.domain.comment.repository
 import com.team07.lmc.common.domain.comment.dto.UpdateCommentRequest
 import com.team07.lmc.common.domain.comment.entity.CommentEntity
 import com.team07.lmc.common.domain.comment.type.PostType
+import com.team07.lmc.global.exceptions.NotFoundTargetException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
@@ -13,7 +14,8 @@ class CommentRepository(
 	override fun addComment(entity: CommentEntity) =
 		commentEntityRepository.save(entity)
 
-	override fun findById(id: Long): CommentEntity = commentEntityRepository.findByIdOrNull(id) ?: TODO("Comment 발견 못함")
+	override fun findById(id: Long): CommentEntity =
+		commentEntityRepository.findByIdOrNull(id) ?: throw NotFoundTargetException("해당 댓글이 존재하지 않습니다.")
 
 	override fun updateEntity(entity: CommentEntity, dto: UpdateCommentRequest): CommentEntity =
 		entity.apply {

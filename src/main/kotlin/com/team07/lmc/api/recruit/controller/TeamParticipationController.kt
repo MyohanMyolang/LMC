@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-    @RequestMapping("/recruitment/post/{postId}/participants")
+@RequestMapping("/recruitment/post/{postId}/participants")
 class TeamParticipationController(
     private val participantService: ParticipantProcessingService
 ) {

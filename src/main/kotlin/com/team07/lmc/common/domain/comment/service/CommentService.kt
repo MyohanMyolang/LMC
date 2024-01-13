@@ -1,7 +1,6 @@
 package com.team07.lmc.common.domain.comment.service
 
 import com.team07.lmc.common.domain.comment.dto.CommentAddRequest
-import com.team07.lmc.common.domain.comment.dto.DeleteCommentRequest
 import com.team07.lmc.common.domain.comment.dto.UpdateCommentRequest
 import com.team07.lmc.common.domain.comment.entity.CommentEntity
 import com.team07.lmc.common.domain.comment.repository.ICommentRepository
@@ -16,8 +15,9 @@ class CommentService(
 	private val auth: IAuth
 ) {
 	@Transactional
-	fun addComment(postType: PostType, postId: Long, nickname: String, commentAddRequest: CommentAddRequest) =
-		CommentEntity.of(postType, postId, nickname, commentAddRequest)
+	fun addComment(postType: PostType, postId: Long, commentAddRequest: CommentAddRequest) =
+		auth.getCurrentMemberEntity()
+			.let { CommentEntity.of(postType, postId, it, commentAddRequest) }
 			.let { commentRepository.addComment(it) }.toResponse()
 
 	fun getCommentList(postType: PostType, postId: Long) =
@@ -35,7 +35,7 @@ class CommentService(
 	}
 
 	@Transactional
-	fun deleteComment(id: Long, dto: DeleteCommentRequest) = checkPermission(id) {
+	fun deleteComment(id: Long) = checkPermission(id) {
 		commentRepository.deleteEntity(it).toResponse()
 	}
 }

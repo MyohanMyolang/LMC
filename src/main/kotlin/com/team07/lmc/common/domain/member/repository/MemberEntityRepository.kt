@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface MemberEntityRepository : JpaRepository<MemberEntity, String> {
 	fun findByNickname(nickname: String): MemberEntity?
 	fun findByKey(key: String): MemberEntity?
-	fun findByMemberIdAndNickname(id: String, nickname: String): MemberEntity?
+	fun findByMemberIdOrNickname(id: String, nickname: String): MemberEntity?
 }
