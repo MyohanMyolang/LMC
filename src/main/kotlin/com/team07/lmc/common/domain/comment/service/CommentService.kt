@@ -15,8 +15,9 @@ class CommentService(
 	private val auth: IAuth
 ) {
 	@Transactional
-	fun addComment(postType: PostType, postId: Long, nickname: String, commentAddRequest: CommentAddRequest) =
-		CommentEntity.of(postType, postId, nickname, commentAddRequest)
+	fun addComment(postType: PostType, postId: Long, commentAddRequest: CommentAddRequest) =
+		auth.getCurrentMemberEntity()
+			.let { CommentEntity.of(postType, postId, it, commentAddRequest) }
 			.let { commentRepository.addComment(it) }.toResponse()
 
 	fun getCommentList(postType: PostType, postId: Long) =

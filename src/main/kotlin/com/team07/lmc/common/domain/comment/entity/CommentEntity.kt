@@ -14,31 +14,33 @@ class CommentEntity(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long? = null,
 
-	@Column(name = "member_nickname")
-	val memberNickname: String,
-
 	@Column(name = "description")
 	var description: String,
 
 	@CreatedDate
 	val createdAt: LocalDateTime = LocalDateTime.now(),
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	val member: MemberEntity,
+
 	@Enumerated(value = EnumType.STRING)
 	private val postType: PostType,
 
 	private val postId: Long,
+
+	@Column(name = "member_nickname")
+	val memberNickname: String
 ) {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_nickname", referencedColumnName = "nickname", insertable = false, updatable = false)
-	val member: MemberEntity? = null
 
 	companion object {
-		fun of(postType: PostType, postId: Long, memberNickname: String, dto: CommentAddRequest) = CommentEntity(
-			memberNickname = memberNickname,
+		fun of(postType: PostType, postId: Long, member: MemberEntity, dto: CommentAddRequest) = CommentEntity(
+			member = member,
 			description = dto.description,
 			postType = postType,
-			postId = postId
+			postId = postId,
+			memberNickname = member.nickname
 		)
 	}
 

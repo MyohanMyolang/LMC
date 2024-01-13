@@ -1,6 +1,7 @@
 package com.team07.lmc.api.recruit.service
 
 import com.team07.lmc.api.comment.ApplicationCommentService
+import com.team07.lmc.common.domain.comment.dto.CommentAddRequest
 import com.team07.lmc.common.domain.comment.service.CommentService
 import com.team07.lmc.common.domain.comment.type.PostType
 import com.team07.lmc.domain.recruit.dto.CreateRecruitmentPostRequest
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service
 class RecruitPostProcessingService(
 	private val recruitPostService: RecruitPostService,
 	private val commentService: CommentService
-) : ApplicationCommentService(commentService) {
+) : ApplicationCommentService(PostType.RECRUIT, commentService) {
 
 	fun getAllRecruitmentPosts(): List<RecruitmentPostResponse> {
 		return recruitPostService.getAllRecruitmentPosts()
@@ -41,4 +42,7 @@ class RecruitPostProcessingService(
 		return recruitPostService.deleteRecruitmentPost(postId)
 	}
 
+	override fun addComment(postId: Long, dto: CommentAddRequest) =
+		recruitPostService.getRecruitmentPostById(postId)
+			.run { super.addComment(postId, dto) }
 }
