@@ -6,8 +6,15 @@ import com.team07.lmc.domain.recruit.dto.ChooseApproveRequest
 import com.team07.lmc.domain.recruit.dto.TeamParticipationResponse
 import com.team07.lmc.domain.recruit.entity.AnswerStatus
 import com.team07.lmc.domain.recruit.entity.TeamParticipationEntity
+import com.team07.lmc.domain.recruit.exceptions.ClosedException
+import com.team07.lmc.domain.recruit.exceptions.DuplicatedException
+import com.team07.lmc.domain.recruit.exceptions.NoOptionException
+import com.team07.lmc.domain.recruit.exceptions.ProceededException
 import com.team07.lmc.domain.recruit.repository.RecruitPostRepository
 import com.team07.lmc.domain.recruit.repository.TeamParticipationRepository
+import com.team07.lmc.global.exceptions.NotFoundTargetException
+import jakarta.transaction.Transactional
+import org.hibernate.annotations.NotFound
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -18,13 +25,14 @@ class ParticipantService(
 	private val auth: IAuth
 ) {
 	fun sendJoinRequest(postId: Long, request: ApplyTeamRequest): TeamParticipationResponse {
-		val recruitPost = recruitPostRepository.findByIdOrNull(postId) ?: TODO("에외처리")
+		val recruitPost =
+			recruitPostRepository.findByIdOrNull(postId) ?: throw NotFoundTargetException("해당 Post가 존재하지 않습니다.")
 		val member = auth.getCurrentMemberEntity()
 		if (recruitPost.isClosed()) {
-			TODO("예외처리")
+			throw ClosedException("닫힌 신청입니다.")
 		}
 		if (teamParticipationRepository.existsByRecruitPostIdAndMemberId(recruitPost, member)) {
-			TODO("중복 시 예외처리")
+			throw DuplicatedException("중복된 신청입니다.")
 		}
 		val teamParticipation = TeamParticipationEntity(
 			recruitPostId = recruitPost,
@@ -43,23 +51,26 @@ class ParticipantService(
 			auth.checkPermission(it.memberEntity) {
 				teamParticipationRepository.findByRecruitPostId(it).map { entity -> entity.toResponseDTO() }
 			}
-		} ?: TODO("에러")
+		} ?: throw NotFoundTargetException("해당 Post가 존재하지 않습니다.")
 	}
 
 	// 신청 승인/거부
+	@Transactional
 	fun chooseApproveOrNot(
 		postId: Long,
 		participantsId: Long,
 		request: ChooseApproveRequest
 	): TeamParticipationResponse {
-		val recruitmentPost = recruitPostRepository.findByIdOrNull(postId) ?: TODO("에외처리")
-		val participationRequest = teamParticipationRepository.findByIdOrNull(participantsId) ?: TODO("에외처리")
+		val recruitmentPost =
+			recruitPostRepository.findByIdOrNull(postId) ?: throw NotFoundTargetException("해당 Post가 존재하지 않습니다.")
+		val participationRequest = teamParticipationRepository.findByIdOrNull(participantsId)
+			?: throw NotFoundTargetException("해당 Post가 존재하지 않습니다.")
 		auth.checkPermission(recruitmentPost.memberEntity) {
 			if (participationRequest.isProceeded()) {
-				TODO("이미 처리된 요청")
+				throw ProceededException("이미 처리된 신청입니다.")
 			}
 			if (recruitmentPost.isClosed()) {
-				TODO("정원이 꽉 찼을 경우")
+				throw ClosedException("닫힌 신청입니다.")
 			}
 			when (request.consentStatus) {
 				AnswerStatus.APPROVED -> {
@@ -73,7 +84,7 @@ class ParticipantService(
 					participationRequest.reject()
 				}
 
-				else -> TODO("예외처리")
+				else -> throw NoOptionException("해당 요청은 존재하지 않습니다.")
 			}
 		}
 
