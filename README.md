@@ -15,7 +15,27 @@
 > > 코드리뷰를 통하여 서로의 코드에서 얻을 수 있는 것이 많다. </br> 
 > - 코드의 발전
 
+> 업무 분배
+
+- Community - 노하영
+- Recruitment - 방준희
+- Comment - 전창현
+
+
 # ERD
+
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/09fa3ff5-f3a4-4954-99f2-0cab76a1d6a8)
+
+
+# 와이어 프레임
+
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/9aa4cf50-42f4-420c-a037-425877e7c981)
+
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/95454dc9-d3ac-4bfa-89ab-837090e07085)
+
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/722ce852-f2bb-4cbc-8e41-366799e6d838)
+
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/68e2a924-4264-435c-982d-a8fb17243db4)
 
 
 ---
@@ -28,6 +48,7 @@
 |   기한   |   1월8일 - 1월12일    |
 |  IDE   | IntelliJ|
 |DB|Postgresql 15|
+| 팀원 | 전창현, 방준희, 노하영 |
 
 
 
