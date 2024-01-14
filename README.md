@@ -24,7 +24,7 @@
 
 # ERD
 
-![image](https://github.com/MyohanMyolang/LMC/assets/85920191/09fa3ff5-f3a4-4954-99f2-0cab76a1d6a8)
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/45424528-d0b9-4266-a5c3-64753b9db83e)
 
 
 # 와이어 프레임
