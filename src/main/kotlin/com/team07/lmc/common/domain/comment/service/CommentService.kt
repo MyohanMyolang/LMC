@@ -26,7 +26,7 @@ class CommentService(
 
 	private fun <T> checkPermission(id: Long, func: (commentEntity: CommentEntity) -> T): T =
 		commentRepository.findById(id).let {
-			auth.checkPermission(it.member!!) { func.invoke(it) }
+			auth.checkPermission(it.member) { func.invoke(it) }
 		}
 
 	@Transactional

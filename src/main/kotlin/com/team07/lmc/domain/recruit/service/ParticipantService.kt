@@ -41,7 +41,6 @@ class ParticipantService(
 		)
 
 		return teamParticipationRepository.save(teamParticipation).toResponseDTO()
-
 	}
 
 	// 신청 내역 조회
