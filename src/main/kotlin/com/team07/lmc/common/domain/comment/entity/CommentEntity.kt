@@ -24,7 +24,6 @@ class CommentEntity(
 
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
 	val member: MemberEntity,
 
 	@Enumerated(value = EnumType.STRING)
