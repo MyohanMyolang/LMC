@@ -31,7 +31,7 @@
 
 ![image](https://github.com/MyohanMyolang/LMC/assets/85920191/9aa4cf50-42f4-420c-a037-425877e7c981)
 
-![image](https://github.com/MyohanMyolang/LMC/assets/85920191/95454dc9-d3ac-4bfa-89ab-837090e07085)
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/92da63f2-3fd7-4e24-abcc-043dc5196d43)
 
 ![image](https://github.com/MyohanMyolang/LMC/assets/85920191/722ce852-f2bb-4cbc-8e41-366799e6d838)
 
