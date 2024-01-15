@@ -37,7 +37,13 @@
 
 ![image](https://github.com/MyohanMyolang/LMC/assets/85920191/0d678827-a2fe-4add-be9e-09d67c099a51)
 
+# API 명세서
 
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/252362f4-57b4-4c8f-8802-9200b7333018)
+
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/3650cff8-c049-4c78-a7fb-12601ea3c5ed)
+
+![image](https://github.com/MyohanMyolang/LMC/assets/85920191/5251a628-8a99-42d5-8b8f-0ba56946d000)
 
 ---
 
