@@ -32,7 +32,7 @@ class RecruitPostEntity(
 	@Column(name = "approval_status")
 	var approvalStatus: Boolean,
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	var memberEntity: MemberEntity
 ) {
@@ -64,7 +64,7 @@ class RecruitPostEntity(
 			maxApplicants = maxApplicants,
 			numApplicants = numApplicants,
 			recruitmentEnd = approvalStatus,
-			userId = memberEntity.memberId
+			userId = memberEntity.nickname
 		)
 	}
 }

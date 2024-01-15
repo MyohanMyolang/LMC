@@ -17,7 +17,6 @@ class RecruitPostController(
 	private val recruitmentPostService: RecruitPostProcessingService,
 ) {
 
-	// 모집글 리스트 형태로 조회
 	@GetMapping("/posts")
 	fun getAllRecruitmentPosts(): ResponseEntity<List<RecruitmentPostResponse>> {
 		return ResponseEntity
@@ -25,7 +24,6 @@ class RecruitPostController(
 			.body(recruitmentPostService.getAllRecruitmentPosts())
 	}
 
-	// 모집글 상세보기
 	@GetMapping("/post/{postId}")
 	fun getRecruitmentPostById(@PathVariable postId: Long) =
 		ResponseEntity
@@ -33,7 +31,6 @@ class RecruitPostController(
 			.body(recruitmentPostService.getRecruitmentPostById(postId))
 
 
-	// 모집글 작성
 	@PostMapping("/post")
 	fun createRecruitmentPost(
 		@RequestBody createRecruitmentPostRequest: CreateRecruitmentPostRequest
@@ -43,7 +40,6 @@ class RecruitPostController(
 			.body(recruitmentPostService.createRecruitmentPost(createRecruitmentPostRequest))
 	}
 
-	// 모집글 수정
 	@PatchMapping("/post/{postId}")
 	fun updateRecruitmentPost(
 		@PathVariable postId: Long,
@@ -55,7 +51,6 @@ class RecruitPostController(
 
 	}
 
-	// 모집글 삭제
 	@DeleteMapping("/post/{postId}")
 	fun deleteRecruitmentPost(@PathVariable postId: Long): ResponseEntity<Unit> {
 		recruitmentPostService.deleteRecruitmentPost(postId)

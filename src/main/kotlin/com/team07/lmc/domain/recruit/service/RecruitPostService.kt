@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RecruitPostService(
 	private val recruitPostRepository: RecruitPostRepository,
-	private val memberEntityRepository: MemberEntityRepository,
 	private val auth: IAuth
 ) {
 	fun getAllRecruitmentPosts(): List<RecruitmentPostResponse> =

@@ -13,8 +13,7 @@ class CommunityPostEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @ManyToOne
     val memberEntity: MemberEntity,
 
     @Column(name = "title")
@@ -31,6 +30,6 @@ class CommunityPostEntity(
     private val postType: PostType = PostType.COMMUNITY
 
     fun toResponse(): CommunityPostResponse {
-        return CommunityPostResponse(id!!, title, content, createdAt)
+        return CommunityPostResponse(id!!, title, content, createdAt, memberEntity.nickname)
     }
 }

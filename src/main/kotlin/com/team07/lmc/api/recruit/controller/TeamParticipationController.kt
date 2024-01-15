@@ -24,7 +24,6 @@ class TeamParticipationController(
             .body(participantService.sendJoinRequest(postId, applyTeamRequest))
     }
 
-    // 팀 신청 내역 조회
     @GetMapping
     fun getAllParticipantsRequest(@PathVariable postId: Long): ResponseEntity<List<TeamParticipationResponse>>{
         return ResponseEntity
@@ -32,7 +31,6 @@ class TeamParticipationController(
             .body(participantService.getAllParticipantsRequest(postId))
     }
 
-    // 팀 신청 내역 승인 or 거절
     @PatchMapping("/{participantsId}")
     fun chooseApproveOrNot(
         @PathVariable postId: Long,

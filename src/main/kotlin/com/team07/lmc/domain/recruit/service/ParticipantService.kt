@@ -43,7 +43,6 @@ class ParticipantService(
 		return teamParticipationRepository.save(teamParticipation).toResponseDTO()
 	}
 
-	// 신청 내역 조회
 	fun getAllParticipantsRequest(postId: Long): List<TeamParticipationResponse> {
 
 		return recruitPostRepository.findByIdOrNull(postId)?.let {
@@ -53,7 +52,6 @@ class ParticipantService(
 		} ?: throw NotFoundTargetException("해당 Post가 존재하지 않습니다.")
 	}
 
-	// 신청 승인/거부
 	@Transactional
 	fun chooseApproveOrNot(
 		postId: Long,

@@ -15,8 +15,6 @@ class CommunityPostEntityService(
 	private val communityRepository: CommunityPostEntityRepository,
 	private val auth: IAuth
 ) {
-	//컴파일 에러 -> Null 예외 처리 해주기 -> EntityNotFoundException
-
 	fun getCommunityPost(postId: Long): CommunityPostResponse {
 		val communityPostEntity =
 			communityRepository.findByIdOrNull(postId) ?: throw NotFoundTargetException("해당 Post가 존재하지 않습니다.")
